@@ -7,10 +7,11 @@ export const alt = `${profile.name} — ${profile.roles[0]}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function OpengraphImage() {
-  const photo = await readFile(join(process.cwd(), "public/images/profileraju7.jpg"));
-  const src = `data:image/jpeg;base64,${photo.toString("base64")}`;
+// Doesn't depend on the request, so read once at module scope and let the image prerender.
+const photo = await readFile(join(process.cwd(), "public/images/profileraju7.jpg"), "base64");
+const src = `data:image/jpeg;base64,${photo}`;
 
+export default async function OpengraphImage() {
   return new ImageResponse(
     (
       <div
@@ -52,8 +53,9 @@ export default async function OpengraphImage() {
           >
             Raju.
           </div>
+          {/* One string, not three text nodes: Satori rejects multi-child divs without display:flex. */}
           <div style={{ fontSize: 30, marginTop: 32, color: "#b9bbd6" }}>
-            {profile.roles[0]} · {profile.roles[1]}
+            {`${profile.roles[0]} · ${profile.roles[1]}`}
           </div>
           <div style={{ fontSize: 22, marginTop: 12, color: "#8a8cab" }}>{profile.location}</div>
         </div>
