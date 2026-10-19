@@ -57,11 +57,11 @@ export function Skills() {
     <section id="skills" data-scene="skills" className="relative px-5 py-28 sm:px-10 sm:py-40">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          index="02"
+          index="03"
           eyebrow="Skills & toolkit"
           title="The stack behind the work."
           highlight={["stack"]}
-          description="A toolkit I've been sharpening since 2020 — from the first line of HTML to full MERN applications, with design thinking at every step."
+          description="The tools I reach for every day — React and Tailwind on the front, Node, Express and MongoDB on the back, with design thinking from Figma at every step."
         />
 
         <div className="mt-16 grid items-center gap-14 lg:grid-cols-2">

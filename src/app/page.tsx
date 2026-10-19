@@ -35,9 +35,9 @@ export default function Home() {
         <Hero />
         <About />
         <Marquee words={marqueeWords} />
+        <Work />
         <Skills />
         <Journey />
-        <Work />
         <Media />
         <Contact />
       </main>

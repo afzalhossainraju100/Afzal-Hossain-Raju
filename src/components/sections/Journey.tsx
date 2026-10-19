@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useSpring } from "motion/react";
 import { useRef } from "react";
-import { education, experience, type TimelineItem } from "@/data/portfolio";
+import { education, milestones, type TimelineItem } from "@/data/portfolio";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 
@@ -84,14 +84,14 @@ export function Journey() {
     <section id="journey" data-scene="journey" className="relative px-5 py-28 sm:px-10 sm:py-40">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          index="03"
+          index="04"
           eyebrow="Journey"
           title="The path so far."
           highlight={["path"]}
-          description="Three roles, one organisation, and a degree in progress — each step building on the last."
+          description="Every step is something I built — from Arduino robots to full-stack apps on the web — alongside a degree in Software Engineering."
         />
         <div className="mt-20 grid gap-20 lg:grid-cols-2 lg:gap-16">
-          <Timeline label="Experience" items={experience} accent="#22e4ff" />
+          <Timeline label="Milestones" items={milestones} accent="#22e4ff" />
           <Timeline label="Education" items={education} accent="#a78bfa" />
         </div>
       </div>

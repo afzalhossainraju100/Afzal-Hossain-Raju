@@ -118,8 +118,8 @@ function PortraitCard() {
           </span>
         </Badge>
         <Badge depth={60} delay="-4s" className="-top-6 right-3 sm:-right-8">
-          <p className="font-mono text-[10px] tracking-[0.25em] text-muted uppercase">Building since</p>
-          <p className="text-gradient font-display text-2xl font-bold">2020</p>
+          <p className="font-mono text-[10px] tracking-[0.25em] text-muted uppercase">{about.latest.label}</p>
+          <p className="text-gradient font-display text-2xl font-bold">{about.latest.value}</p>
         </Badge>
       </TiltCard>
 

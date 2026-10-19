@@ -92,6 +92,19 @@ export const FlipIcon = (p: IconProps) => (
     <path d="M18 3v4h-4M6 21v-4h4" />
   </svg>
 );
+export const DocIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...stroke} {...p}>
+    <path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8l-5-5Z" />
+    <path d="M14 3v5h5M9 13h6M9 17h4" />
+  </svg>
+);
+
+export const LockIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...stroke} {...p}>
+    <rect x="5" y="11" width="14" height="10" rx="2.5" />
+    <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+  </svg>
+);
 
 const brandPaths: Record<Social["name"], string> = {
   GitHub:

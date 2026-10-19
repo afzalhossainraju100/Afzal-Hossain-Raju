@@ -5,14 +5,18 @@ type Props = {
   href: string;
   children: ReactNode;
   variant?: "primary" | "ghost";
+  size?: "md" | "sm";
   external?: boolean;
   icon?: ReactNode;
+  /** Accessible name, when the visible text alone is ambiguous. */
+  label?: string;
 };
 
 /** Magnetic pill link. Primary floods with the brand gradient on hover. */
-export function ButtonLink({ href, children, variant = "primary", external, icon }: Props) {
+export function ButtonLink({ href, children, variant = "primary", size = "md", external, icon, label }: Props) {
   const base =
-    "group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full px-6 py-3.5 text-sm font-semibold tracking-wide transition-colors duration-500";
+    "group relative inline-flex items-center overflow-hidden rounded-full font-semibold tracking-wide transition-colors duration-500";
+  const sizes = size === "md" ? "gap-2.5 px-6 py-3.5 text-sm" : "gap-2 px-4 py-2.5 text-[13px]";
   const styles =
     variant === "primary"
       ? "bg-fg text-ink hover:text-ink"
@@ -22,7 +26,8 @@ export function ButtonLink({ href, children, variant = "primary", external, icon
     <Magnetic>
       <a
         href={href}
-        className={`${base} ${styles}`}
+        aria-label={label}
+        className={`${base} ${sizes} ${styles}`}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {variant === "primary" && (

@@ -84,13 +84,25 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={intro ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease }}
-          className="glass mb-8 inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2 text-xs text-muted sm:text-sm"
+          className="mb-8 flex flex-wrap items-center gap-3"
         >
-          <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-mint/15">
-            <span className="absolute h-2 w-2 animate-ping-slow rounded-full bg-mint" />
-            <span className="relative h-2 w-2 rounded-full bg-mint" />
+          <span className="glass inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2 text-xs text-muted sm:text-sm">
+            <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-mint/15">
+              <span className="absolute h-2 w-2 animate-ping-slow rounded-full bg-mint" />
+              <span className="relative h-2 w-2 rounded-full bg-mint" />
+            </span>
+            {profile.status}
           </span>
-          {profile.status}
+          <a
+            href={profile.announcement.href}
+            className="group inline-flex items-center gap-2 rounded-full border border-line py-1.5 pr-3.5 pl-1.5 text-xs text-fg/90 transition-colors duration-300 hover:border-cyan/50 hover:text-fg sm:text-sm"
+          >
+            <span className="rounded-full bg-linear-to-r from-cyan to-violet px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.15em] text-ink uppercase">
+              {profile.announcement.label}
+            </span>
+            {profile.announcement.text}
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
         </motion.div>
 
         <motion.h1

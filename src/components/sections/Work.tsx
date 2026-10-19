@@ -3,10 +3,10 @@
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { projects, socials, type Project } from "@/data/portfolio";
+import { projects, socials, type Project, type ProjectLink } from "@/data/portfolio";
 import { useMediaQuery } from "@/lib/hooks";
 import { ButtonLink } from "../ui/Button";
-import { ArrowUpRight, BrandIcon, CheckIcon } from "../ui/Icons";
+import { ArrowUpRight, BrandIcon, CheckIcon, DocIcon, LockIcon } from "../ui/Icons";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { TiltCard } from "../ui/TiltCard";
@@ -107,6 +107,35 @@ function ProjectVisual({ project, index }: { project: Project; index: number }) 
           />
         </div>
       )}
+      {project.image?.fit === "browser" && (
+        // In flow on small screens so the frame sets the height and clears the number and badge.
+        <div
+          className="relative grid h-full place-items-center px-5 pt-24 pb-10 sm:px-10 sm:pt-28 lg:absolute lg:inset-0 lg:px-8 lg:pt-20 lg:pb-8"
+          style={{ background: `radial-gradient(70% 60% at 50% 55%, ${project.accent}33, transparent)` }}
+        >
+          <div className="absolute h-[55%] w-[70%] rounded-full blur-3xl" style={{ background: `${project.accent}26` }} />
+          <figure className="relative w-full max-w-140 overflow-hidden rounded-xl border border-white/15 bg-ink-2 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-1000 ease-out-expo transform-[perspective(1400px)_rotateY(-9deg)_rotateX(4deg)] group-hover:transform-[perspective(1400px)_rotateY(0deg)_rotateX(0deg)]">
+            <div className="flex items-center gap-1.5 border-b border-white/10 bg-white/5 px-3 py-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+              <span className="mx-auto flex min-w-0 items-center gap-1.5 rounded-md bg-white/6 px-3 py-0.5 font-mono text-[10px] text-muted">
+                <LockIcon className="h-2.5 w-2.5 shrink-0" />
+                <span className="truncate">{project.image.frame}</span>
+              </span>
+              <span className="w-10" />
+            </div>
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              width={1440}
+              height={900}
+              sizes="(min-width: 1024px) 560px, 100vw"
+              className="block h-auto w-full"
+            />
+          </figure>
+        </div>
+      )}
       {project.art === "nutrition" && <NutritionArt />}
 
       <span
@@ -115,48 +144,92 @@ function ProjectVisual({ project, index }: { project: Project; index: number }) 
       >
         0{index + 1}
       </span>
+
+      {project.live && (
+        <span className="glass absolute top-6 right-6 inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[10px] tracking-[0.22em] text-fg uppercase">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping-slow rounded-full" style={{ background: project.accent }} />
+            <span className="relative h-2 w-2 rounded-full" style={{ background: project.accent }} />
+          </span>
+          Live
+        </span>
+      )}
+    </div>
+  );
+}
+
+const linkCopy: Record<ProjectLink["kind"], string> = {
+  live: "live site",
+  code: "source code on GitHub",
+  docs: "documentation",
+  design: "Figma prototype",
+};
+
+function ProjectLinks({ project }: { project: Project }) {
+  if (!project.links?.length) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-2.5">
+      {project.links.map((link, i) => {
+        const icon =
+          link.kind === "code" ? (
+            <BrandIcon name="GitHub" className="h-3.5 w-3.5" />
+          ) : link.kind === "docs" ? (
+            <DocIcon className="h-3.5 w-3.5" />
+          ) : (
+            <ArrowUpRight className="h-4 w-4" />
+          );
+        return (
+          <ButtonLink
+            key={link.href}
+            href={link.href}
+            external
+            size="sm"
+            variant={i === 0 ? "primary" : "ghost"}
+            icon={icon}
+            label={`${project.title}: ${link.label}, ${linkCopy[link.kind]} (opens in a new tab)`}
+          >
+            {link.label}
+          </ButtonLink>
+        );
+      })}
     </div>
   );
 }
 
 function ProjectCard({ project, index, total }: { project: Project; index: number; total: number }) {
   return (
-    <Reveal className="w-full shrink-0 lg:w-[min(78vw,1040px)]">
-      <TiltCard max={4} className="rounded-4xl" {...(project.link ? { "data-cursor": "Open" } : {})}>
-        <article className="group glass grid overflow-hidden rounded-4xl lg:h-[min(70vh,600px)] lg:grid-cols-[1.15fr_1fr]">
+    <Reveal className="w-full shrink-0 lg:w-[min(80vw,1080px)]">
+      <TiltCard max={4} className="rounded-4xl">
+        <article className="group glass grid overflow-hidden rounded-4xl lg:min-h-[min(72vh,600px)] lg:grid-cols-[1.2fr_1fr]">
           <ProjectVisual project={project} index={index} />
-          <div className="flex flex-col p-7 sm:p-10">
+          <div className="flex flex-col p-7 sm:p-10 lg:p-9">
             <div className="flex items-center justify-between font-mono text-[11px] tracking-[0.2em] uppercase">
               <span style={{ color: project.accent }}>{project.kicker}</span>
               <span className="text-muted">
                 {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
               </span>
             </div>
-            <h3 className="mt-6 font-display text-3xl leading-tight font-bold text-balance sm:text-4xl">
+            <h3 className="mt-5 font-display text-3xl leading-tight font-bold text-balance sm:text-4xl">
               {project.title}
             </h3>
-            <p className="mt-4 leading-relaxed text-muted">{project.description}</p>
-            <ul className="mt-6 space-y-2.5">
+            <p className="mt-3 text-[15px] leading-relaxed text-muted">{project.description}</p>
+            <ul className="mt-5 space-y-2">
               {project.highlights.map((h) => (
-                <li key={h} className="flex items-center gap-3 text-sm text-fg/90">
-                  <CheckIcon className="h-4 w-4 shrink-0" style={{ color: project.accent }} />
+                <li key={h} className="flex items-start gap-3 text-sm text-fg/90">
+                  <CheckIcon className="mt-0.5 h-4 w-4 shrink-0" style={{ color: project.accent }} />
                   {h}
                 </li>
               ))}
             </ul>
-            <div className="mt-auto flex flex-wrap items-end justify-between gap-6 pt-8">
-              <ul className="flex flex-wrap gap-1.5">
+            <div className="mt-auto space-y-5 pt-7">
+              <ul className="flex flex-wrap gap-1.5" aria-label="Tech stack">
                 {project.tags.map((t) => (
-                  <li key={t} className="rounded-full border border-line px-3 py-1 text-xs text-fg/80">
+                  <li key={t} className="rounded-full border border-line px-2.5 py-1 text-[11px] text-fg/80">
                     {t}
                   </li>
                 ))}
               </ul>
-              {project.link && (
-                <ButtonLink href={project.link.href} external variant="ghost" icon={<ArrowUpRight className="h-4 w-4" />}>
-                  {project.link.label}
-                </ButtonLink>
-              )}
+              <ProjectLinks project={project} />
             </div>
           </div>
         </article>
@@ -173,12 +246,12 @@ function MoreCard() {
         target="_blank"
         rel="noopener noreferrer"
         data-cursor="Open"
-        className="group glass relative flex aspect-[4/3] flex-col justify-between overflow-hidden rounded-4xl p-8 transition-colors duration-500 hover:border-cyan/40 lg:aspect-auto lg:h-[min(70vh,600px)]"
+        className="group glass relative flex aspect-4/3 flex-col justify-between overflow-hidden rounded-4xl p-8 transition-colors duration-500 hover:border-cyan/40 lg:aspect-auto lg:h-[min(72vh,600px)]"
       >
         <div className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-violet/20 blur-3xl transition-transform duration-1000 group-hover:scale-150" />
         <BrandIcon name="GitHub" className="relative h-10 w-10" />
         <div className="relative">
-          <p className="font-mono text-[11px] tracking-[0.25em] text-muted uppercase">There&apos;s more</p>
+          <p className="font-mono text-[11px] tracking-[0.25em] text-muted uppercase">100+ public repositories</p>
           <p className="mt-3 font-display text-4xl leading-tight font-bold">
             Explore everything on <span className="text-gradient">GitHub</span>
           </p>
@@ -237,11 +310,11 @@ export function Work() {
         >
           <div className={desktop ? "w-[min(34vw,480px)] shrink-0" : ""}>
             <SectionHeading
-              index="04"
+              index="02"
               eyebrow="Selected work"
               title="Things I've built & designed."
               highlight={["built", "designed."]}
-              description="Robots that move, apps that guide, ideas that help people live better. A few favourites."
+              description="Full-stack apps on the web, a robot that moves, and ideas that help people live better — with live demos and source code wherever I can share them."
             />
             {desktop && (
               <Reveal delay={0.3} className="mt-12 flex items-center gap-4 font-mono text-[11px] tracking-[0.25em] text-muted uppercase">

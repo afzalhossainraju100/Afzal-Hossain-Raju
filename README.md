@@ -8,9 +8,9 @@ A single WebGL particle field (up to 16k particles, custom GLSL) lives behind th
 | --- | --- |
 | Hero | Spiral galaxy |
 | About | Neural sphere |
+| Work | Torus knot |
 | Skills | DNA double helix |
 | Journey | Rolling wave terrain |
-| Work | Torus knot |
 | Media | Portal ring |
 | Contact | Globe with a beam over Dhaka |
 | Footer | The globe rises like a planet |
@@ -31,7 +31,7 @@ npm run build && npm start   # production
 
 ## Edit the content
 
-**Every word, link and image lives in [`src/data/portfolio.ts`](src/data/portfolio.ts).** Update that file; no component changes needed. Photos are in `public/images/`.
+**Every word, link and image lives in [`src/data/portfolio.ts`](src/data/portfolio.ts).** Update that file; no component changes needed. Photos are in `public/images/`; project screenshots are in `public/images/projects/`.
 
 To retune the 3D choreography (where each shape sits, its colours, opacity and spin per section), edit [`src/components/three/scene-config.ts`](src/components/three/scene-config.ts).
 
@@ -79,7 +79,7 @@ src/
   data/portfolio.ts    all site content
   components/
     three/             WebGL scene: shapes, morphing particles, starfield
-    sections/          Hero, About, Skills, Journey, Work, Media, Contact, Footer
+    sections/          Hero, About, Work, Skills, Journey, Media, Contact, Footer
     ui/                cursor, navbar, preloader, tilt cards, tag sphere, reveals…
     providers/         Lenis smooth scroll + Motion config
   lib/                 shared scene state, hooks, intro store, site URL
